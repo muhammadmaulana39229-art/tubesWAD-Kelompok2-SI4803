@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function kategoris()
+    {
+        return $this->hasMany(Kategori::class);
+    }
+
+    public function kegiatans()
+    {
+        return $this->hasMany(Kegiatan::class);
+    }
 }

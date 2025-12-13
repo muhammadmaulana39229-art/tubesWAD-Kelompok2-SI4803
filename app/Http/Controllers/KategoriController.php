@@ -55,5 +55,11 @@ class KategoriController extends Controller
         return redirect()->route('kategori.index')
                          ->with('success', 'Kategori berhasil dihapus.');
     }
-    // Method show() dapat dihilangkan jika Anda tidak memerlukan halaman detail.
+
+    public function show(Kategori $kategori)
+    {
+        // Otorisasi sudah ditangani oleh Policy
+        $kegiatans = $kategori->kegiatans()->latest()->get();
+        return view('kategori.show', compact('kategori', 'kegiatans'));
+    }
 }
