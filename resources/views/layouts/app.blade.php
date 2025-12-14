@@ -13,7 +13,6 @@
             <div class="navbar-nav ms-auto">
                 @auth
                     <a class="nav-link" href="{{ route('kategori.index') }}">Kategori</a>
-                    <a class="nav-link" href="{{ route('kegiatan.index') }}">Kegiatan</a>
                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
                         @csrf
                         <button type="submit" class="btn btn-link nav-link">Logout</button>

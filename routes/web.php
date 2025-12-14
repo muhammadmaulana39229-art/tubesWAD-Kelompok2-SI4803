@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\KegiatanController; 
+use App\Http\Controllers\KategoriController; 
 
 Route::get('/', function () {
     return view('welcome');
@@ -53,9 +52,6 @@ Route::post('/logout', function () {
 
 Route::middleware(['auth'])->group(function () {
     
-    // Rute untuk Kegiatan (dari tugas sebelumnya)
-    Route::resource('kegiatan', KegiatanController::class); 
-
     // Rute Resource untuk CRUD Kategori (Tugas Anda)
     Route::resource('kategori', KategoriController::class)->except(['show']); 
 
