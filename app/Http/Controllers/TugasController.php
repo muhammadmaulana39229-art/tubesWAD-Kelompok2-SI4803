@@ -2,63 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tugas;
 use Illuminate\Http\Request;
 
 class TugasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $tugas = Tugas::all();
+        return view('tugas.index', compact('tugas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('tugas.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'judul' => 'required',
+        ]);
+
+        Tugas::create([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('tugas.index')
+            ->with('success', 'Tugas berhasil ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Tugas $tuga)
     {
-        //
+        return view('tugas.edit', [
+            'tugas' => $tuga
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Tugas $tuga)
     {
-        //
+        $request->validate([
+            'judul' => 'required',
+        ]);
+
+        $tuga->update([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('tugas.index')
+            ->with('success', 'Tugas berhasil diperbarui!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Tugas $tuga)
     {
-        //
-    }
+        $tuga->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('tugas.index')
+            ->with('success', 'Tugas berhasil dihapus!');
     }
 }

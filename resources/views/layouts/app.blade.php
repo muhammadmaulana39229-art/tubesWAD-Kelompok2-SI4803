@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -17,22 +18,6 @@
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </head>
 <body>
-<<<<<<< HEAD
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">Laravel App</a>
-            <div class="navbar-nav ms-auto">
-                @auth
-                    <a class="nav-link" href="{{ route('kategori.index') }}">Kategori</a>
-                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-link nav-link">Logout</button>
-                    </form>
-                @else
-                    <a class="nav-link" href="{{ route('login') }}">Login</a>
-                    <a class="nav-link" href="{{ route('register') }}">Register</a>
-                @endauth
-=======
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -119,7 +104,6 @@
                         @endguest
                     </ul>
                 </div>
->>>>>>> d5a87523935a17113be7e35bf27390ecbe94dc1f
             </div>
         </nav>
 
