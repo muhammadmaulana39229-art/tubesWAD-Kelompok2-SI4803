@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('tugas', function (Blueprint $table) {
             $table->id();
+            $table->string('judul');
+            $table->text('deskripsi')->nullable();
+            $table->enum('status', ['pending', 'proses', 'selesai'])->default('pending');
             $table->timestamps();
         });
     }
