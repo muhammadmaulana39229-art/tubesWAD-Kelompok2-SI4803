@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('catatan_tambahans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('judul');
+            $table->text('isi');
+            $table->date('tanggal');
+            $table->boolean('libur')->default(false);
             $table->timestamps();
         });
     }

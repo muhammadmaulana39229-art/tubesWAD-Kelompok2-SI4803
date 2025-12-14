@@ -1,14 +1,14 @@
 @extends('layouts.app') 
 
-@section('title', 'Tambah Pengingat Baru')
+@section('title', 'Edit Pengingat: ' . $pengingat->judul)
 
 @section('content')
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h2>🔔 Buat Pengingat Baru</h2>
+                <div class="card-header bg-warning text-white">
+                    <h2>✏️ Edit Pengingat: {{ $pengingat->judul }}</h2>
                 </div>
 
                 <div class="card-body">
@@ -22,8 +22,9 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('pengingat.store') }}" method="POST">
+                    <form action="{{ route('pengingat.update', $pengingat->id) }}" method="POST">
                         @csrf 
+                        @method('PUT') 
 
                         <div class="mb-3">
                             <label for="judul" class="form-label">Judul Pengingat:</label>
@@ -31,7 +32,7 @@
                                 class="form-control @error('judul') is-invalid @enderror" 
                                 id="judul" 
                                 name="judul" 
-                                value="{{ old('judul') }}" 
+                                value="{{ old('judul', $pengingat->judul) }}" 
                                 required>
                             @error('judul')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -44,12 +45,11 @@
                                 class="form-control @error('waktu_pengingat') is-invalid @enderror" 
                                 id="waktu_pengingat" 
                                 name="waktu_pengingat" 
-                                value="{{ old('waktu_pengingat') }}" 
+                                value="{{ old('waktu_pengingat', $pengingat->waktu_pengingat->format('Y-m-d\TH:i')) }}" 
                                 required>
                             @error('waktu_pengingat')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <small class="form-text text-muted">Waktu harus di masa depan.</small>
                         </div>
                         
                         <div class="mb-3">
@@ -58,13 +58,13 @@
                                 class="form-control @error('deskripsi') is-invalid @enderror" 
                                 id="deskripsi" 
                                 name="deskripsi"
-                                rows="3">{{ old('deskripsi') }}</textarea>
+                                rows="3">{{ old('deskripsi', $pengingat->deskripsi) }}</textarea>
                             @error('deskripsi')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-primary me-2">Simpan Pengingat</button>
+                        <button type="submit" class="btn btn-warning me-2">Perbarui Pengingat</button>
                         <a href="{{ route('pengingat.index') }}" class="btn btn-secondary">Batal</a>
                     </form>
                 </div>
