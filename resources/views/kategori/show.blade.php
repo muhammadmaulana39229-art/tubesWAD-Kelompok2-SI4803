@@ -32,5 +32,25 @@
     @else
         <p>Tidak ada kegiatan dalam kategori ini.</p>
     @endif
+
+    <h3>Tugas dalam Kategori Ini</h3>
+    @if($tugas->count() > 0)
+        <div class="row">
+            @foreach($tugas as $t)
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $t->nama }}</h5>
+                            <p class="card-text">{{ $t->deskripsi }}</p>
+                            <p class="card-text"><small class="text-muted">Deadline: {{ $t->deadline ? $t->deadline->format('d M Y') : 'Tidak ada' }}</small></p>
+                            <p class="card-text"><small class="text-muted">Status: {{ $t->status ?? 'Belum selesai' }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p>Tidak ada tugas dalam kategori ini.</p>
+    @endif
 </div>
 @endsection

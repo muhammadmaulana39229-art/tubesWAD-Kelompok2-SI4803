@@ -17,7 +17,7 @@ class KategoriController extends Controller
     public function index()
     {
         // Hanya ambil kategori milik user yang sedang login
-        $kategoris = Kategori::where('user_id', auth()->id())->latest()->get();
+        $kategoris = Kategori::where('user_id', auth()->id())->with(['kegiatans', 'tugas'])->latest()->get();
         return view('kategori.index', compact('kategoris'));
     }
 
@@ -60,6 +60,7 @@ class KategoriController extends Controller
     {
         // Otorisasi sudah ditangani oleh Policy
         $kegiatans = $kategori->kegiatans()->latest()->get();
-        return view('kategori.show', compact('kategori', 'kegiatans'));
+        $tugas = $kategori->tugas()->latest()->get(); // Tambah tugas
+        return view('kategori.show', compact('kategori', 'kegiatans', 'tugas'));
     }
 }

@@ -18,6 +18,7 @@
                         <h5 class="card-title">{{ $kategori->nama }}</h5>
                         <p class="card-text">Warna: <span style="color: {{ $kategori->warna ?? '#007bff' }};">{{ $kategori->warna ?? 'Default' }}</span></p>
                         <p class="card-text">Jumlah Kegiatan: {{ $kategori->kegiatans->count() }}</p>
+                        <p class="card-text">Jumlah Tugas: {{ $kategori->tugas->count() }}</p>
                         <a href="{{ route('kategori.show', $kategori) }}" class="btn btn-info btn-sm">Lihat Kegiatan</a>
                         <a href="{{ route('kategori.edit', $kategori) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('kategori.destroy', $kategori) }}" method="POST" class="d-inline">
