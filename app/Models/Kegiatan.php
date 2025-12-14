@@ -3,8 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Kegiatan extends Model
 {
-    //
+    protected $table = 'kegiatan';
+
+    protected $fillable = [
+        'judul',
+        'deskripsi',
+        'tanggal',
+        'waktu',
+        'lokasi'
+    ];
 }
