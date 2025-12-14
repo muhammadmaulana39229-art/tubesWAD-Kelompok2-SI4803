@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Tugas; 
 use App\Models\Kegiatan; 
 use App\Models\Pengingat;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
