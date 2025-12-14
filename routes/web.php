@@ -25,8 +25,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('kegiatan', KegiatanController::class);
-
     Route::resource('tugas', TugasController::class);
 
     Route::resource('kategori', KategoriController::class);
@@ -46,3 +44,5 @@ Route::middleware('auth')->group(function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('kegiatan', KegiatanController::class);
