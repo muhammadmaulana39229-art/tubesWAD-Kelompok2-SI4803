@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kegiatan extends Model
 {
-    //
+    protected $table = 'kegiatan';
+
+    protected $fillable = [
+        'judul',
+        'deskripsi',
+        'tanggal',
+        'waktu',
+        'lokasi'
+    ];
 }

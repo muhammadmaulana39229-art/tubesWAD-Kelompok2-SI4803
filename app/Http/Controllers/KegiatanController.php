@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 
 class KegiatanController extends Controller
@@ -11,7 +12,8 @@ class KegiatanController extends Controller
      */
     public function index()
     {
-        //
+        $kegiatan = Kegiatan::all();
+        return view('kegiatan.index', compact('kegiatan'));
     }
 
     /**
@@ -19,7 +21,7 @@ class KegiatanController extends Controller
      */
     public function create()
     {
-        //
+        return view('kegiatan.create');
     }
 
     /**
@@ -27,7 +29,9 @@ class KegiatanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Kegiatan::create($request->all());
+
+        return redirect()->route('kegiatan.index');
     }
 
     /**
@@ -35,7 +39,9 @@ class KegiatanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $kegiatan = Kegiatan::findOrFail($id);
+
+        return view('kegiatan.show', compact('kegiatan'));
     }
 
     /**
@@ -43,7 +49,9 @@ class KegiatanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $kegiatan = Kegiatan::findOrFail($id);
+
+        return view('kegiatan.edit', compact('kegiatan'));
     }
 
     /**
@@ -51,7 +59,10 @@ class KegiatanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $kegiatan = Kegiatan::findOrFail($id);
+        $kegiatan->update($request->all());
+
+        return redirect()->route('kegiatan.index');
     }
 
     /**
@@ -59,6 +70,8 @@ class KegiatanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Kegiatan::destroy($id);
+
+        return redirect()->route('kegiatan.index');
     }
 }
