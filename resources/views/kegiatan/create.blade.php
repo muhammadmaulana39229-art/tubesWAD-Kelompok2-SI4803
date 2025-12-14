@@ -41,3 +41,4 @@
     <button type="submit">Simpan</button>
     <a href="{{ route('kegiatan.index') }}">Batal</a>
 </form>
+
