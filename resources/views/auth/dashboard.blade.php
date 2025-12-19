@@ -29,14 +29,21 @@
                     @if($tugas_mendatang->isNotEmpty())
                         <ul class="list-group list-group-flush">
                             @foreach($tugas_mendatang as $tugas)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ $tugas->judul }}
-                                    <span class="badge bg-secondary">{{ \Carbon\Carbon::parse($tugas->tenggat_waktu)->diffForHumans() }}</span>
+                                <li class="list-group-item d-flex justify-content-between align-items-start px-0">
+                                    <div>
+                                        <span class="d-block fw-bold">{{ $tugas->judul }}</span>
+                                        @if($tugas->kategori)
+                                            <span class="badge" style="background-color: {{ $tugas->kategori->warna ?? '#6c757d' }}; color: white;">
+                                                {{ $tugas->kategori->nama }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <span class="badge bg-light text-dark border">{{ \Carbon\Carbon::parse($tugas->tenggat_waktu)->diffForHumans() }}</span>
                                 </li>
                             @endforeach
                         </ul>
                         <div class="mt-3 text-end">
-                            <a href="{{ route('tugas.index') }}" class="card-link">Lihat Semua Tugas &raquo;</a>
+                            <a href="{{ route('tugas.index') }}" class="btn btn-sm btn-outline-warning">Lihat Semua Tugas</a>
                         </div>
                     @else
                         <p class="text-muted">Tidak ada tugas yang tercatat.</p>
@@ -46,33 +53,68 @@
         </div>
 
         <div class="col-md-6 mb-4">
-            <div class="card shadow">
-                <div class="card-header bg-success text-white">
-                    <h5>🗓️ Kegiatan Akademik/Non-Akademik Terdekat</h5>
-                </div>
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">
+            <h5>🗓️ Kegiatan Akademik/Non-Akademik Terdekat</h5>
+        </div>
                 <div class="card-body">
-                    @if($kegiatan_mendatang->isNotEmpty())
+                    @if($kegiatan->isNotEmpty())
                         <ul class="list-group list-group-flush">
-                            @foreach($kegiatan_mendatang as $kegiatan)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ $kegiatan->nama_kegiatan }}
-                                    <span class="badge bg-info">{{ \Carbon\Carbon::parse($kegiatan->waktu_mulai)->format('d M, H:i') }}</span>
+                            @foreach($kegiatan as $keg)
+                                <li class="list-group-item d-flex justify-content-between align-items-start px-0">
+                                    <div>
+                                        <span class="d-block fw-bold">{{ $keg->judul }}</span>
+                                        @if($keg->kategori)
+                                            <span class="badge" style="background-color: {{ $keg->kategori->warna ?? '#17a2b8' }}; color: white;">
+                                                {{ $keg->kategori->nama }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <small class="text-muted">{{ \Carbon\Carbon::parse($keg->tanggal)->format('d M') }}</small>
                                 </li>
                             @endforeach
                         </ul>
                         <div class="mt-3 text-end">
-                            <a href="{{ route('kegiatan.index') }}" class="card-link">Lihat Semua Kegiatan &raquo;</a>
+                            <a href="{{ route('kegiatan.index') }}" class="btn btn-sm btn-outline-success">Lihat Semua Kegiatan</a>
                         </div>
                     @else
-                        <p class="text-muted">Tidak ada kegiatan yang tercatat.</p>
+                        <p class="text-muted">Tidak ada kegiatan tercatat.</p>
                     @endif
                 </div>
             </div>
         </div>
     </div>
 
+
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h5>📝 Catatan Terbaru</h5>
+                </div>
+                <div class="card-body">
+                    @if(isset($catatan_tambahan) && $catatan_tambahan->isNotEmpty())
+                        <ul class="list-group list-group-flush">
+                            @foreach($catatan_tambahan as $catatan)
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>{{ $catatan->judul }}</strong>
+                                        @if($catatan->libur)
+                                            <span class="badge bg-success">Libur</span>
+                                        @endif
+                                    </div>
+                                    <small class="text-muted">{{ \Carbon\Carbon::parse($catatan->tanggal)->format('d M Y') }}</small>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-muted">Belum ada catatan tambahan.</p>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
                     <h5>ℹ️ Hari Libur Resmi</h5>
@@ -81,21 +123,21 @@
                     @if(isset($hari_libur) && count($hari_libur) > 0)
                         <div class="row">
                             @foreach($hari_libur as $libur)
-                                <div class="col-md-4 mb-2">
-                                    <span class="badge bg-danger">{{ $libur['tanggal'] }}</span> 
-                                    {{ $libur['nama'] }}
+                                <div class="col-md-12 mb-2">
+                                    <span class="badge bg-danger">
+                                        {{ \Carbon\Carbon::parse($libur['holiday_date'])->format('d M') }}
+                                    </span> 
+                                    <small>{{ $libur['holiday_name'] }}</small>
                                 </div>
                             @endforeach
                         </div>
-                        <small class="text-muted">Data diambil dari API Kalender Nasional.</small>
-                    @elseif(isset($hari_libur['error']))
-                        <p class="text-danger">Gagal memuat hari libur: {{ $hari_libur['error'] }}</p>
+                        <hr>
+                        <small class="text-muted">Data otomatis dari API Nasional.</small>
                     @else
-                        <p class="text-muted">Tidak ada data hari libur yang tersedia saat ini.</p>
+                        <p class="text-muted">Tidak ada data hari libur tersedia.</p>
                     @endif
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

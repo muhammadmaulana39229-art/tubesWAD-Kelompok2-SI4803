@@ -7,50 +7,77 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Kegiatan;
 use App\Models\Tugas;
 use App\Models\Pengingat;
-use Illuminate\Support\Facades\Http; // Untuk memanggil API eksternal
+use App\Models\CatatanTambahan;
+use App\Models\Kategori;
+use Illuminate\Support\Facades\Http;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    // Method index untuk menampilkan Dashboard
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // 1. Data Tugas & Kegiatan (5 Terdekat)
-        $tugas_mendatang = $user->tugas()->orderBy('tenggat_waktu', 'asc')->take(5)->get();
-        $kegiatan_mendatang = $user->kegiatans()->orderBy('waktu_mulai', 'asc')->take(5)->get();
-
-        // 2. Logika Notifikasi Pengingat (Dari Modul Muhammad Maulana)
-        $notifikasi_baru = Pengingat::where('user_id', auth()->id())
-            ->where('status_muncul', 0)
-            ->orderBy('waktu_pengingat', 'asc')
-            ->limit(5)
+        // 1. Ambil 5 Tugas Pending
+        $tugas_mendatang = $user->tugas()
+            ->with('kategori')
+            ->where('status', 'pending')
+            ->latest()
+            ->take(5)
             ->get();
 
+        // 2. Ambil 5 Kegiatan Terbaru
+        $kegiatan = $user->kegiatans()
+            ->with('kategori')
+            ->latest()
+            ->take(5)
+            ->get();
 
-        // Tandai pengingat tersebut sebagai sudah muncul (Agar tidak muncul lagi)
+        $statistik_kategori = $user->kategoris()
+            ->withCount(['tugas', 'kegiatans'])
+            ->get();
+
+        // 3. Ambil 5 Catatan Tambahan Terbaru (Sesuai model Anda)
+        $catatan_tambahan = $user->catatans()
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // 4. Logika Notifikasi Pengingat (Hanya muncul jika sudah waktunya)
+        $notifikasi_baru = $user->pengingats()
+            ->where('status_muncul', false)
+            ->where('waktu_pengingat', '<=', Carbon::now())
+            ->get();
+
         if ($notifikasi_baru->isNotEmpty()) {
-            Pengingat::whereIn('id', $notifikasi_baru->pluck('id'))->update(['status_muncul' => true]);
+            $user->pengingats()
+                ->whereIn('id', $notifikasi_baru->pluck('id'))
+                ->update(['status_muncul' => true]);
         }
 
-        // 3. Integrasi API Hari Libur (Dari Modul Lucky Thezavanica)
+        // 5. API Hari Libur Nasional (Untuk info di sidebar/card)
         $hari_libur = [];
         try {
-            // Ganti URL ini dengan API Kalender Nasional yang sebenarnya
-            $response = Http::get('https://api.example.com/kalender/hari-libur-2025'); 
-            
+            $response = Http::timeout(3)->get('https://api-harilibur.vercel.app/api'); 
             if ($response->successful()) {
-                $hari_libur = $response->json();
+                $hari_libur = array_slice($response->json(), 0, 5); // Ambil 5 hari libur terdekat
             }
         } catch (\Exception $e) {
-            // Tangani kegagalan API jika diperlukan
-            // Misalnya, $hari_libur = ['error' => 'Gagal mengambil data hari libur.'];
+            $hari_libur = [];
         }
 
         return view('auth.dashboard', compact(
             'notifikasi_baru',
             'tugas_mendatang',
-            'kegiatan_mendatang',
+            'kegiatan',
+            'catatan_tambahan',
+            'statistik_kategori',
             'hari_libur'
         ));
     }

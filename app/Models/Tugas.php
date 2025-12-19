@@ -13,8 +13,20 @@ class Tugas extends Model
     protected $table = 'tugas';
 
     protected $fillable = [
+        'user_id',  
+        'kategori_id',
         'judul',
         'deskripsi',
         'status',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function kategori(): BelongsTo
+    {
+        return $this->belongsTo(Kategori::class, 'kategori_id');
+    }
 }
