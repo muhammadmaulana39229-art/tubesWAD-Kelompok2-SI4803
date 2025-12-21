@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kegiatan;
+use App\Models\Kategori;
 
 use Illuminate\Http\Request;
 
@@ -21,14 +22,27 @@ class KegiatanController extends Controller
 
     public function create()
     {
-        return view('kegiatan.create');
+        $kategoris = Kategori::where('user_id', auth()->id())->get();
+        return view('kegiatan.create', compact('kategoris'));
     }
 
     public function store(Request $request)
     {
-        Kegiatan::create($request->all());
+        $validated = $request->validate([
+        'judul' => 'required',
+        'tanggal' => 'required',
+        'waktu' => 'required',
+        'kategori_id' => 'required|exists:kategoris,id',
+        
+    ]);
 
-        return redirect()->route('kegiatan.index');
+    $data = $request->all();
+    $data['user_id'] = auth()->id();
+    $data['kategori_id'] = $request->kategori_id;
+
+    Kegiatan::create($data);
+
+    return redirect()->route('kegiatan.index');
     }
 
     public function show(Kegiatan $kegiatan)
@@ -40,9 +54,9 @@ class KegiatanController extends Controller
 
     public function edit(Kegiatan $kegiatan)
     {
-        $kegiatan = Kegiatan::findOrFail($id);
+        $kategoris = Kategori::where('user_id', auth()->id())->get();
 
-        return view('kegiatan.edit', compact('kegiatan'));
+        return view('kegiatan.edit', compact('kegiatan', 'kategoris'));
     }
 
     public function update(Request $request, Kegiatan $kegiatan)
@@ -55,7 +69,7 @@ class KegiatanController extends Controller
 
     public function destroy(Kegiatan $kegiatan)
     {
-        Kegiatan::destroy($id);
+        $kegiatan->delete();
 
         return redirect()->route('kegiatan.index');
     }

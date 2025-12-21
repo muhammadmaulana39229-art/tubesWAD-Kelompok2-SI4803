@@ -6,7 +6,7 @@
 <div class="container mt-4">
     <div class="row mb-3">
         <div class="col-md-12 d-flex justify-content-between align-items-center">
-            <h1>🔔 Daftar Pengingat</h1>
+            <h1>Daftar Pengingat</h1>
             <a href="{{ route('pengingat.create') }}" class="btn btn-primary">
                 + Tambah Pengingat
             </a>
@@ -54,7 +54,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('pengingat.edit', $pengingat->id) }}" class="btn btn-sm btn-info text-white me-2">
+                                <a href="{{ route('pengingat.edit', $pengingat->id) }}" class="btn btn-sm btn-warning text-white me-2">
                                     Edit
                                 </a>
                                 

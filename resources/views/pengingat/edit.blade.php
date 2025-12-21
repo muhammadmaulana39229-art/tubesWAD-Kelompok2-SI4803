@@ -7,8 +7,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow">
-                <div class="card-header bg-warning text-white">
-                    <h2>✏️ Edit Pengingat: {{ $pengingat->judul }}</h2>
+                <div class="card-header bg-primary text-white">
+                    <h2>Edit Pengingat: {{ $pengingat->judul }}</h2>
                 </div>
 
                 <div class="card-body">
@@ -64,7 +64,7 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-warning me-2">Perbarui Pengingat</button>
+                        <button type="submit" class="btn btn-primary me-2">Perbarui Pengingat</button>
                         <a href="{{ route('pengingat.index') }}" class="btn btn-secondary">Batal</a>
                     </form>
                 </div>

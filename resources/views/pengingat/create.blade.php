@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
-                    <h2>🔔 Buat Pengingat Baru</h2>
+                    <h2>Buat Pengingat Baru</h2>
                 </div>
 
                 <div class="card-body">
@@ -49,7 +49,7 @@
                             @error('waktu_pengingat')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <small class="form-text text-muted">Waktu harus di masa depan.</small>
+                            <small class="form-text text-muted">Waktu pengingat tidak boleh di masa lalu.</small>
                         </div>
                         
                         <div class="mb-3">

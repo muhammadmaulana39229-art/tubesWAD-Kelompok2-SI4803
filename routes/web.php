@@ -31,6 +31,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('pengingat', PengingatController::class);
 
+    Route::resource('kegiatan', KegiatanController::class);
+
     Route::resource('catatan', CatatanTambahanController::class)->names([
         'index' => 'catatan.index',
         'create' => 'catatan.create',
@@ -42,7 +44,3 @@ Route::middleware('auth')->group(function () {
     ]);
 });
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::resource('kegiatan', KegiatanController::class);

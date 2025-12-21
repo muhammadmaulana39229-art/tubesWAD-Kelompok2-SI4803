@@ -13,6 +13,19 @@
         </div>
 
         <div class="mb-3">
+            <label class="form-label">Kategori</label>
+            <select name="kategori_id" class="form-select" required>
+                <option value="">-- Pilih Kategori --</option>
+                @foreach($kategoris as $kat)
+                    <option value="{{ $kat->id }}" {{ old('kategori_id') == $kat->id ? 'selected' : '' }}>
+                        {{ $kat->nama }}
+                    </option>
+                @endforeach
+            </select>
+            <small class="text-muted">Setiap tugas wajib memiliki kategori.</small>
+        </div>
+
+        <div class="mb-3">
             <label>Deskripsi</label>
             <textarea name="deskripsi" class="form-control"></textarea>
         </div>

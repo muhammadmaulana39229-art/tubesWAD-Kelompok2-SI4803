@@ -39,8 +39,14 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        $statistik_kategori = $user->kategoris()
-            ->withCount(['tugas', 'kegiatans'])
+        $kategoris = $user->kategoris()
+             ->withCount(['tugas', 'kegiatans'])
+             ->get();
+
+        $pengingats = $user->pengingats()
+            ->where('waktu_pengingat', '>=', Carbon::now()) // Munculkan yang belum lewat
+            ->orderBy('waktu_pengingat', 'asc')
+            ->take(5)
             ->get();
 
         // 3. Ambil 5 Catatan Tambahan Terbaru (Sesuai model Anda)
@@ -77,8 +83,9 @@ class DashboardController extends Controller
             'tugas_mendatang',
             'kegiatan',
             'catatan_tambahan',
-            'statistik_kategori',
-            'hari_libur'
+            'kategoris',
+            'hari_libur',
+            'pengingats'
         ));
     }
 }

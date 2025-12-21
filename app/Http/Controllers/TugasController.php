@@ -15,16 +15,20 @@ class TugasController extends Controller
 
     public function create()
     {
-        return view('tugas.create');
+        $kategoris = \App\Models\Kategori::where('user_id', auth()->id())->get();
+        return view('tugas.create', compact('kategoris'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'judul' => 'required',
+            'kategori_id' => 'required|exists:kategoris,id',
         ]);
 
         Tugas::create([
+            'user_id' => auth()->id(),
+            'kategori_id' => $request->kategori_id,
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'status' => 'pending',

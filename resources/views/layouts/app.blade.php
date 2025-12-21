@@ -14,8 +14,12 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
     <!-- Scripts -->
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <div id="app">
@@ -33,7 +37,7 @@
                     <ul class="navbar-nav me-auto">
                         @auth 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">🏠 Dashboard</a>
+                            <a class="nav-link" href="{{ route('dashboard') }}">🏠 Dashboard</a>
                         </li>
 
                         <li class="nav-item">
@@ -57,12 +61,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('pengingat.index') }}">
                                 🔔 Pengingat
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('catatan.index') }}">
-                                📝 Catatan
                             </a>
                         </li>
                         @endauth
@@ -111,5 +109,7 @@
             @yield('content')
         </main>
     </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
