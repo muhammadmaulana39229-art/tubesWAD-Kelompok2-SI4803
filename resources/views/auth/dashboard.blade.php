@@ -24,7 +24,7 @@
         <div class="col-md-8 mb-4">
             <div class="card shadow border-0 h-100">
                 <div class="card-header bg-primary text-white fw-bold py-3">
-                    <h5 class="mb-0">🏷️ Ringkasan Kategori</h5>
+                    <h5 class="mb-0">Kategori</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -54,7 +54,7 @@
         <div class="col-md-4 mb-4">
             <div class="card shadow border-0 h-100">
                 <div class="card-header bg-danger text-white fw-bold py-3">
-                    <h5 class="mb-0">🔔 Pengingat Aktif</h5>
+                    <h5 class="mb-0">Pengingat Aktif</h5>
                 </div>
                 <div class="card-body">
                     @forelse($pengingats ?? [] as $p)
@@ -62,7 +62,7 @@
                             <div>
                                 <strong class="d-block text-dark small">{{ $p->judul }}</strong>
                                 <small class="text-muted">
-                                    ⏰ {{ \Carbon\Carbon::parse($p->waktu_pengingat)->format('d M, H:i') }}
+                                     {{ \Carbon\Carbon::parse($p->waktu_pengingat)->format('d M, H:i') }}
                                 </small>
                             </div>
                             <span class="badge bg-light text-dark border small">Aktif</span>
@@ -118,7 +118,7 @@
         <div class="col-md-6 mb-4">
             <div class="card shadow border-0 h-100">
                 <div class="card-header bg-success text-white fw-bold py-3">
-                    <h5 class="mb-0">🗓️ Kegiatan Mendatang</h5>
+                    <h5 class="mb-0">🗓️ Kegiatan Akademik/Non-Akademik</h5>
                 </div>
                 <div class="card-body">
                     @if($kegiatan->isNotEmpty())
@@ -153,7 +153,7 @@
         <div class="col-md-12 mb-4">
             <div class="card shadow border-0">
                 <div class="card-header bg-secondary text-white fw-bold text-center">
-                    ℹ️ Hari Libur Resmi
+                    ℹ️ Hari Libur Nasional
                 </div>
                 <div class="card-body">
                     @if(isset($hari_libur) && count($hari_libur) > 0)

@@ -47,8 +47,6 @@ class KegiatanController extends Controller
 
     public function show(Kegiatan $kegiatan)
     {
-        $kegiatan = Kegiatan::findOrFail($id);
-
         return view('kegiatan.show', compact('kegiatan'));
     }
 
