@@ -44,3 +44,7 @@ Route::middleware('auth')->group(function () {
     ]);
 });
 Auth::routes();
+
+Route::get('/home', function () {
+    return redirect('/dashboard');
+});
